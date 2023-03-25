@@ -19,6 +19,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOi-P1-mVJ">
                                 <rect key="frame" x="16" y="20" width="288" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Mcb-VC-vz2">
                                 <rect key="frame" x="16" y="188" width="288" height="112"/>
@@ -75,14 +80,23 @@
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="lW4-AJ-JHo">
                                                 <rect key="frame" x="-2" y="0.0" width="182.5" height="31"/>
                                                 <color key="minimumTrackTintColor" systemColor="systemRedColor"/>
+                                                <connections>
+                                                    <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="Z7U-uK-73V"/>
+                                                </connections>
                                             </slider>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EIz-bR-0mg">
                                                 <rect key="frame" x="-2" y="41" width="182.5" height="31"/>
                                                 <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
+                                                <connections>
+                                                    <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="EaV-pj-YbV"/>
+                                                </connections>
                                             </slider>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EFe-ga-ric">
                                                 <rect key="frame" x="-2" y="82" width="182.5" height="31"/>
                                                 <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                <connections>
+                                                    <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="4lS-8B-A2v"/>
+                                                </connections>
                                             </slider>
                                         </subviews>
                                     </stackView>
@@ -104,6 +118,15 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Mcb-VC-vz2" secondAttribute="trailing" constant="16" id="zYH-Du-0CV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="blueSlider" destination="EFe-ga-ric" id="wqc-AE-2UF"/>
+                        <outlet property="blueValueLabel" destination="4dw-O4-eYj" id="NSE-cT-Zv6"/>
+                        <outlet property="colorizedView" destination="LOi-P1-mVJ" id="wTn-A4-J29"/>
+                        <outlet property="greenSlider" destination="EIz-bR-0mg" id="YdQ-kz-I92"/>
+                        <outlet property="greenValueLabel" destination="3cQ-n0-clG" id="XcQ-tP-47x"/>
+                        <outlet property="redSlider" destination="lW4-AJ-JHo" id="325-oJ-zum"/>
+                        <outlet property="redValueLabel" destination="RVf-me-7Os" id="fCI-mH-H8j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
