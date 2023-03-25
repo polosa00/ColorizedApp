@@ -7,17 +7,21 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    @IBOutlet var colorizedView: UIView!
+final class ColorizedVC: UIViewController {
     
-    @IBOutlet var redValueLabel: UILabel!
-    @IBOutlet var greenValueLabel: UILabel!
-    @IBOutlet var blueValueLabel: UILabel!
+    // MARK: - IBOutlets
     
-    @IBOutlet var redSlider: UISlider!
-    @IBOutlet var greenSlider: UISlider!
-    @IBOutlet var blueSlider: UISlider!
+    @IBOutlet private var colorizedView: UIView!
+    
+    @IBOutlet private var redValueLabel: UILabel!
+    @IBOutlet private var greenValueLabel: UILabel!
+    @IBOutlet private var blueValueLabel: UILabel!
+    
+    @IBOutlet private var redSlider: UISlider!
+    @IBOutlet private var greenSlider: UISlider!
+    @IBOutlet private var blueSlider: UISlider!
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,16 +32,19 @@ class ViewController: UIViewController {
         
         setColorForView()
         setValueForLabels()
-        
     }
     
-    @IBAction func changedRGBColor() {
+    // MARK: - IBActions
+    
+    @IBAction private func changedRGBColor() {
         setColorForView()
         setValueForLabels()
     }
 }
 
-extension ViewController {
+    // MARK: - Setup color and value for label
+
+extension ColorizedVC {
     private func setColorForView() {
         colorizedView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -52,7 +59,6 @@ extension ViewController {
         greenValueLabel.text = String(format: "%.2f", greenSlider.value)
         blueValueLabel.text = String(format: "%.2f", blueSlider.value)
     }
-    
 }
 
 
