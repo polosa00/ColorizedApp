@@ -29,7 +29,7 @@ final class ColorizedVC: UIViewController {
         redSlider.value = 0.05
         greenSlider.value = 0.27
         blueSlider.value = 0.49
-        
+       
         setColorForView()
         setValueForLabels()
     }
