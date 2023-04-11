@@ -36,27 +36,27 @@ final class ColorizedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         redTextField.delegate = self
         greenTextField.delegate = self
         blueTextField.delegate = self
         
         colorizedView.backgroundColor = colorForView
         
+        let ciColor = CIColor(color: colorForView)
+        
+        redSlider.value = Float(ciColor.red)
+        greenSlider.value = Float(ciColor.green)
+        blueSlider.value = Float(ciColor.blue)
+        
         redValueLabel.text = string(from: redSlider)
         greenValueLabel.text = string(from: greenSlider)
         blueValueLabel.text = string(from: blueSlider)
         
-        redTextField.text = String(redSlider.value)
-        greenTextField.text = String(greenSlider.value)
-        blueTextField.text = String(blueSlider.value)
-        
-//        colorizedView.backgroundColor = UIColor(
-//            red: CGFloat(redSlider.value),
-//            green: CGFloat(greenSlider.value),
-//            blue: CGFloat(blueSlider.value),
-//            alpha: 1
-//        )
+        redTextField.text = string(from: redSlider)
+        greenTextField.text = string(from: greenSlider)
+        blueTextField.text = string(from: blueSlider)
+
     }
     
     // MARK: - IBActions
@@ -73,10 +73,13 @@ final class ColorizedViewController: UIViewController {
         switch sender {
         case redSlider:
             redValueLabel.text = string(from: redSlider)
+            redTextField.text = string(from: redSlider)
         case greenSlider:
             greenValueLabel.text = string(from: greenSlider)
+            greenTextField.text = string(from: greenSlider)
         default:
             blueValueLabel.text = string(from: blueSlider)
+            blueTextField.text = string(from: blueSlider)
         }
     }
     
@@ -101,6 +104,7 @@ extension ColorizedViewController: UITextFieldDelegate {
         
         if textField == redTextField {
             redSlider.setValue(numberValue, animated: true)
+            redTextField.text = string(from: redSlider)
         } else if textField == greenTextField {
             greenSlider.setValue(numberValue, animated: true)
         } else if textField == blueTextField {
@@ -108,6 +112,7 @@ extension ColorizedViewController: UITextFieldDelegate {
         }
         
         setColor()
+        
     }
 }
 
