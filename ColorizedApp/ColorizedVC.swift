@@ -30,22 +30,34 @@ final class ColorizedVC: UIViewController {
         greenSlider.value = 0.27
         blueSlider.value = 0.49
        
-        setColorForView()
-        setValueForLabels()
+        colorizedView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
+        
+        redValueLabel.text = string(from: redSlider)
+        greenValueLabel.text = string(from: greenSlider)
+        blueValueLabel.text = string(from: blueSlider)
+    
     }
     
     // MARK: - IBActions
     
-    @IBAction private func changedRGBColor() {
-        setColorForView()
-        setValueForLabels()
+    @IBAction func changedColor(_ sender: UISlider) {
+        setColor()
+        switch sender {
+        case redSlider:
+            redValueLabel.text = string(from: redSlider)
+        case greenSlider:
+            greenValueLabel.text = string(from: greenSlider)
+        default:
+            blueValueLabel.text = string(from: blueSlider)
+        }
     }
-}
-
-    // MARK: - Setup color and value for label
-
-extension ColorizedVC {
-    private func setColorForView() {
+    
+    private func setColor() {
         colorizedView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
             green: CGFloat(greenSlider.value),
@@ -54,12 +66,14 @@ extension ColorizedVC {
         )
     }
     
-    private func setValueForLabels() {
-        redValueLabel.text = String(format: "%.2f", redSlider.value)
-        greenValueLabel.text = String(format: "%.2f", greenSlider.value)
-        blueValueLabel.text = String(format: "%.2f", blueSlider.value)
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
 }
+
+
+
+    
 
 
 

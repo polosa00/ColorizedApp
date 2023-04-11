@@ -84,21 +84,21 @@
                                                         <rect key="frame" x="-2" y="0.0" width="181.5" height="36.5"/>
                                                         <color key="minimumTrackTintColor" systemColor="systemRedColor"/>
                                                         <connections>
-                                                            <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="Z7U-uK-73V"/>
+                                                            <action selector="changedColor:" destination="BYZ-38-t0r" eventType="valueChanged" id="Gmm-fK-GOT"/>
                                                         </connections>
                                                     </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EIz-bR-0mg">
+                                                    <slider opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EIz-bR-0mg">
                                                         <rect key="frame" x="-2" y="46.5" width="181.5" height="36"/>
                                                         <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
                                                         <connections>
-                                                            <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="EaV-pj-YbV"/>
+                                                            <action selector="changedColor:" destination="BYZ-38-t0r" eventType="valueChanged" id="dO6-bR-Kgx"/>
                                                         </connections>
                                                     </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EFe-ga-ric">
+                                                    <slider opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="EFe-ga-ric">
                                                         <rect key="frame" x="-2" y="92.5" width="181.5" height="36.5"/>
                                                         <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
                                                         <connections>
-                                                            <action selector="changedRGBColor" destination="BYZ-38-t0r" eventType="valueChanged" id="4lS-8B-A2v"/>
+                                                            <action selector="changedColor:" destination="BYZ-38-t0r" eventType="valueChanged" id="Msx-kH-8kC"/>
                                                         </connections>
                                                     </slider>
                                                 </subviews>
