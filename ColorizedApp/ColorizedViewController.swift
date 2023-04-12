@@ -10,7 +10,6 @@ import UIKit
 final class ColorizedViewController: UIViewController {
     
     // MARK: - IBOutlets
-    
     @IBOutlet private var colorizedView: UIView!
     
     @IBOutlet private var redValueLabel: UILabel!
@@ -26,10 +25,9 @@ final class ColorizedViewController: UIViewController {
     @IBOutlet var blueTextField: UITextField!
     
     var colorForView: UIColor!
-    
     var delegate: ColorizedViewControllerDelegate!
     
-    // MARK: - ViewDidLoad
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +42,13 @@ final class ColorizedViewController: UIViewController {
         setDoneButton(for: [redTextField, greenTextField, blueTextField])
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+        setColor()
+        setTextForLabelAndTF()
+    }
+    
     // MARK: - IBActions
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         delegate.setValue(for: colorizedView.backgroundColor ?? .red)
@@ -51,7 +56,6 @@ final class ColorizedViewController: UIViewController {
     }
     
     @IBAction func changedColor(_ sender: UISlider) {
-        setColor()
         switch sender {
         case redSlider:
             redValueLabel.text = string(from: redSlider)
@@ -63,16 +67,51 @@ final class ColorizedViewController: UIViewController {
             blueValueLabel.text = string(from: blueSlider)
             blueTextField.text = string(from: blueSlider)
         }
-    }
-    // MARK: - Override methods
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
         setColor()
-        setTextForLabelAndTF()
+    }
+    
+    // MARK: - Setup UI elements
+    private func setColor() {
+        colorizedView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
+    }
+    
+    private func setSliderValue() {
+        let ciColor = CIColor(color: colorForView)
+        
+        redSlider.value = Float(ciColor.red)
+        greenSlider.value = Float(ciColor.green)
+        blueSlider.value = Float(ciColor.blue)
+    }
+    
+    private func setTextForLabelAndTF() {
+        redValueLabel.text = string(from: redSlider)
+        greenValueLabel.text = string(from: greenSlider)
+        blueValueLabel.text = string(from: blueSlider)
+        
+        redTextField.text = string(from: redSlider)
+        greenTextField.text = string(from: greenSlider)
+        blueTextField.text = string(from: blueSlider)
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+    
+    private func showAlert(withTitle title: String,andMessage message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }
-// MARK: - Text Field Delegate
+
+// MARK: - Extension for Colorized View Controller
 extension ColorizedViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let newValue = textField.text, !newValue.isEmpty else {
@@ -121,55 +160,17 @@ extension ColorizedViewController: UITextFieldDelegate {
             
             keyboardToolbar.items = [doneButton, flexBurButton]
         }
-        
     }
+    
     @objc private func didTapDone() {
         view.endEditing(true)
         setColor()
         setTextForLabelAndTF()
     }
 }
-// MARK: - Private methods
-extension ColorizedViewController {
-    private func setColor() {
-        colorizedView.backgroundColor = UIColor(
-            red: CGFloat(redSlider.value),
-            green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value),
-            alpha: 1
-        )
-    }
-    
-    private func setSliderValue() {
-        let ciColor = CIColor(color: colorForView)
-        
-        redSlider.value = Float(ciColor.red)
-        greenSlider.value = Float(ciColor.green)
-        blueSlider.value = Float(ciColor.blue)
-    }
-    
-    private func setTextForLabelAndTF() {
-        redValueLabel.text = string(from: redSlider)
-        greenValueLabel.text = string(from: greenSlider)
-        blueValueLabel.text = string(from: blueSlider)
-        
-        redTextField.text = string(from: redSlider)
-        greenTextField.text = string(from: greenSlider)
-        blueTextField.text = string(from: blueSlider)
-    }
-    
-    private func string(from slider: UISlider) -> String {
-        String(format: "%.2f", slider.value)
-    }
-    
-    private func showAlert(withTitle title: String,andMessage message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
-        
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-}
+
+
+
 
     
 
