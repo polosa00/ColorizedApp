@@ -7,9 +7,6 @@
 
 import UIKit
 
-
-
-
 final class ColorizedViewController: UIViewController {
     
     // MARK: - IBOutlets
@@ -33,7 +30,6 @@ final class ColorizedViewController: UIViewController {
     var delegate: ColorizedViewControllerDelegate!
     
     // MARK: - ViewDidLoad
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,29 +39,15 @@ final class ColorizedViewController: UIViewController {
         
         colorizedView.backgroundColor = colorForView
         
-        let ciColor = CIColor(color: colorForView)
-        
-        redSlider.value = Float(ciColor.red)
-        greenSlider.value = Float(ciColor.green)
-        blueSlider.value = Float(ciColor.blue)
-        
-        redValueLabel.text = string(from: redSlider)
-        greenValueLabel.text = string(from: greenSlider)
-        blueValueLabel.text = string(from: blueSlider)
-        
-        redTextField.text = string(from: redSlider)
-        greenTextField.text = string(from: greenSlider)
-        blueTextField.text = string(from: blueSlider)
-
+        setSliderValue()
+        setTextForLabelAndTF()
+        setDoneButton(for: [redTextField, greenTextField, blueTextField])
     }
     
     // MARK: - IBActions
-    
-    
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         delegate.setValue(for: colorizedView.backgroundColor ?? .red)
         dismiss(animated: true)
-        
     }
     
     @IBAction func changedColor(_ sender: UISlider) {
@@ -82,25 +64,31 @@ final class ColorizedViewController: UIViewController {
             blueTextField.text = string(from: blueSlider)
         }
     }
-    
-    private func setColor() {
-        colorizedView.backgroundColor = UIColor(
-            red: CGFloat(redSlider.value),
-            green: CGFloat(greenSlider.value),
-            blue: CGFloat(blueSlider.value),
-            alpha: 1
-        )
-    }
-    
-    private func string(from slider: UISlider) -> String {
-        String(format: "%.2f", slider.value)
+    // MARK: - Override methods
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+        setColor()
+        setTextForLabelAndTF()
     }
 }
-
+// MARK: - Text Field Delegate
 extension ColorizedViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let newValue = textField.text else { return }
+        guard let newValue = textField.text, !newValue.isEmpty else {
+            showAlert(withTitle: "Text field is empty ", andMessage: "Enter data!")
+            return
+        }
         guard let numberValue = Float(newValue) else { return }
+        
+        if numberValue < 0 || numberValue > 1 {
+            showAlert(withTitle: "Incorrect value", andMessage: "Input value from 0 to 1")
+            redSlider.setValue(1, animated: true)
+            greenSlider.setValue(1, animated: true)
+            blueSlider.setValue(1, animated: true)
+            setColor()
+            setTextForLabelAndTF()
+        }
         
         if textField == redTextField {
             redSlider.setValue(numberValue, animated: true)
@@ -110,12 +98,78 @@ extension ColorizedViewController: UITextFieldDelegate {
         } else if textField == blueTextField {
             blueSlider.setValue(numberValue, animated: true)
         }
-        
         setColor()
+    }
+   
+    private func setDoneButton(for textFields: [UITextField]) {
+        textFields.forEach { textField in
+            let keyboardToolbar = UIToolbar()
+            textField.inputAccessoryView = keyboardToolbar
+            keyboardToolbar.sizeToFit()
+            
+            let doneButton = UIBarButtonItem(
+                title: "Done",
+                style: .done,
+                target: self,
+                action: #selector(didTapDone)
+            )
+            let flexBurButton = UIBarButtonItem(
+                barButtonSystemItem: .flexibleSpace,
+                target: nil,
+                action: nil
+            )
+            
+            keyboardToolbar.items = [doneButton, flexBurButton]
+        }
         
     }
+    @objc private func didTapDone() {
+        view.endEditing(true)
+        setColor()
+        setTextForLabelAndTF()
+    }
 }
-
+// MARK: - Private methods
+extension ColorizedViewController {
+    private func setColor() {
+        colorizedView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value),
+            green: CGFloat(greenSlider.value),
+            blue: CGFloat(blueSlider.value),
+            alpha: 1
+        )
+    }
+    
+    private func setSliderValue() {
+        let ciColor = CIColor(color: colorForView)
+        
+        redSlider.value = Float(ciColor.red)
+        greenSlider.value = Float(ciColor.green)
+        blueSlider.value = Float(ciColor.blue)
+    }
+    
+    private func setTextForLabelAndTF() {
+        redValueLabel.text = string(from: redSlider)
+        greenValueLabel.text = string(from: greenSlider)
+        blueValueLabel.text = string(from: blueSlider)
+        
+        redTextField.text = string(from: redSlider)
+        greenTextField.text = string(from: greenSlider)
+        blueTextField.text = string(from: blueSlider)
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+    
+    private func showAlert(withTitle title: String,andMessage message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+}
 
     
 
